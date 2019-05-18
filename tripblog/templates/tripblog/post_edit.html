@@ -1,0 +1,11 @@
+{% extends "tripblog/base.html" %}
+
+{% block content %}
+
+    <h1>글 수정</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" type="button" class="btn btn-primary">수정하기</button>
+    </form>
+{% endblock %}

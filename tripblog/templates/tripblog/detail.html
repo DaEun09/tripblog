@@ -1,0 +1,39 @@
+{% extends "tripblog/base.html" %}
+
+{% block content %}
+
+    <div>
+        <h1>{{post.title}}</h1>
+        <p>{{post.created_date}}</p>
+        <p>{{post.text}}</p>
+        <img src="https://img.s-msn.com/tenant/amp/entityid/BBc3sIe.img?h=416&w=624&m=6&q=60&u=t&o=f&l=f">
+        <br><br>
+        
+        <a href="{% url 'edit' post.id %}">수정하기</a>
+        <a href="{% url 'delete' post.id %}">삭제하기</a>
+    </div>
+
+    <hr>
+
+    <p>댓글 {{ post.comments.count }}개</p>
+    <div class="form-group">
+        <h4>댓글 작성</h4>
+        <form method="POST" action="{% url 'add_comment' post.id %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">작성</button>
+        </form>
+    </div>
+
+    {% for comment in post.comments.all %}
+    <div>
+        <div>{{comment.created_date}}</div>
+        <strong>{{comment.nickname}}</strong>
+        {{comment.text|linebreaks}}
+        <a href="{% url 'comment_delete' comment.id %}">댓글 삭제하기</a>
+    </div>
+    {% empty %}
+    <p>작성된 댓글이 없습니다.</p>
+    {% endfor %}
+
+{% endblock %}
